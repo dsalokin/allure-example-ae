@@ -21,6 +21,7 @@ public class IssuesRestTest {
     @Story("Create new issue")
     @Microservice("Billing")
     @Tags({@Tag("api"), @Tag("smoke")})
+    @JiraIssues({@JiraIssue("AD-2")})
     @ParameterizedTest(name = "Create issue via api")
     @ValueSource(strings = {"First Note", "Second Note"})
     public void shouldCreateUserNote(String title) {
@@ -36,7 +37,7 @@ public class IssuesRestTest {
     @Story("Close existing issue")
     @Microservice("Repository")
     @Tags({@Tag("api"), @Tag("regress")})
-    @JiraIssues({@JiraIssue("AE-1")})
+    @JiraIssues({@JiraIssue("AD-1")})
     @ParameterizedTest(name = "Close issue via api")
     @ValueSource(strings = {"First Note", "Second Note"})
     public void shouldDeleteUserNote(String title) {
