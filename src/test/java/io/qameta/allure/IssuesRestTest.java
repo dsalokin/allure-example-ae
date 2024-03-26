@@ -27,7 +27,7 @@ public class IssuesRestTest {
     @Description("If reran this test will leave 'In progress' test results in Allure Testops launch.")
     @ParameterizedTest(name = "Should generate in progress results each rerun of a pipeline")
     @MethodSource("epochTimestamps")
-    public void shouldDeleteUserNote(@Param(value = "HashOrSomething") long epochTimestamp) {
+    public void shouldGenerateInProgressTestResultsIfRestarted(@Param(value = "HashOrSomething") long epochTimestamp) {
         Date date = new Date(epochTimestamp);
         String note = date.toString();
         steps.createIssueWithTitle(OWNER, REPO, note);
