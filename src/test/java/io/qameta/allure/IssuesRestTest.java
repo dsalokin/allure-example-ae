@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 @Layer("rest")
 @Owner("baev")
-@Feature("TestParameters")
+@Feature("Tests Parameters")
 public class IssuesRestTest {
 
     private static final String OWNER = "allure-framework";
@@ -23,8 +23,9 @@ public class IssuesRestTest {
 
     @Story("Dynamic parameter")
     @Microservice("Report")
-    @Tags({@Tag("parameter"), @Tag("dynamic"), @Tag("usecase")})
-    @ParameterizedTest(name = "Should generate in progress results each rerun of a pipeline ")
+    @Tags({@Tag("parameter"), @Tag("dynamic")})
+    @Description("If reran this test will leave 'In progress' test results in Allure Testops launch.")
+    @ParameterizedTest(name = "Should generate in progress results each rerun of a pipeline")
     @MethodSource("epochTimestamps")
     public void shouldDeleteUserNote(@Param(value = "HashOrSomething") long epochTimestamp) {
         Date date = new Date(epochTimestamp);
@@ -34,7 +35,7 @@ public class IssuesRestTest {
     }
     static Stream<Long> epochTimestamps() {
         long epochOne = System.currentTimeMillis();
-        long epochTwo = System.currentTimeMillis() + 1000012;
+        long epochTwo = System.currentTimeMillis() + 1000123;
         return Stream.of(epochOne, epochTwo);
     }
 
