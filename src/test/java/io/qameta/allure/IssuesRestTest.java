@@ -11,11 +11,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.Date;
 import java.util.stream.Stream;
 
-import static io.qameta.allure.Allure.parameter;
-
 @Layer("rest")
 @Owner("baev")
-@Feature("Issues")
+@Feature("TestParameters")
 public class IssuesRestTest {
 
     private static final String OWNER = "allure-framework";
@@ -23,14 +21,12 @@ public class IssuesRestTest {
 
     private final RestSteps steps = new RestSteps();
 
-    @Story("Close existing issue")
-    @Microservice("Repository")
-    @Tags({@Tag("web"), @Tag("regress"), @Tag("second-pipe")})
-    @ParameterizedTest(name = "Close issue via api")
+    @Story("Dynamic parameter")
+    @Microservice("Report")
+    @Tags({@Tag("parameter"), @Tag("dynamic"), @Tag("usecase")})
+    @ParameterizedTest(name = "Should generate in progress results each rerun of a pipeline ")
     @MethodSource("epochTimestamps")
     public void shouldDeleteUserNote(@Param(value = "HashOrSomething") long epochTimestamp) {
-//    public void shouldDeleteUserNote(@Param(value = "Title", excluded = true) long epochTimestamp) {
-//    public void shouldDeleteUserNote(@Param(mode = Parameter.Mode.) String title) {
         Date date = new Date(epochTimestamp);
         String note = date.toString();
         steps.createIssueWithTitle(OWNER, REPO, note);
@@ -38,7 +34,7 @@ public class IssuesRestTest {
     }
     static Stream<Long> epochTimestamps() {
         long epochOne = System.currentTimeMillis();
-        long epochTwo = System.currentTimeMillis() + 1000000; // Adding 1000 seconds for the second timestamp
+        long epochTwo = System.currentTimeMillis() + 1000012;
         return Stream.of(epochOne, epochTwo);
     }
 
