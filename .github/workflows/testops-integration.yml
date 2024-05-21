@@ -50,7 +50,8 @@ jobs:
           TEST_ENDPOINT: ${{ github.event.inputs.TEST_ENDPOINT }}
           TEST_BROWSER: ${{ github.event.inputs.TEST_BROWSER }}
       - name: Get ALLURE_ environments
-        run: | 
+        run: |
+          export $(allurectl job-run env)
           printenv | grep ALLURE_
           echo ${ALLURE_JOB_RUN_ID}
       - name: Get GITHUB_ environments
