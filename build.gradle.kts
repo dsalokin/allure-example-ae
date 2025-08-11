@@ -37,10 +37,13 @@ configure<AllureExtension> {
 
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-  kotlinOptions {
-    jvmTarget = "1.8"
-  }
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(arrayOf("--release", "8"))
 }
 
 tasks.withType(Test::class) {
