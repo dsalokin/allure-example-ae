@@ -12,7 +12,7 @@ buildscript {
 }
 
 tasks.existing(Wrapper::class) {
-    gradleVersion = "7.3.1"
+    gradleVersion = "5.1.1"
     distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -37,10 +37,10 @@ configure<AllureExtension> {
 
 }
 
-tasks.withType(JavaCompile::class) {
-    sourceCompatibility = "${JavaVersion.VERSION_1_8}"
-    targetCompatibility = "${JavaVersion.VERSION_1_8}"
-    options.encoding = "UTF-8"
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }
 
 tasks.withType(Test::class) {
