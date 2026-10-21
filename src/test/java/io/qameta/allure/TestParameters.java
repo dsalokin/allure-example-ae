@@ -45,6 +45,16 @@ public class TestParameters {
         assertEquals(x + y, sum);
     }
 
+    @ParameterizedTest(name = "oh, you touch my ta-la-la")
+    @MethodSource("dataProvider")
+    public void testSum3(int x, int y, int sum) {
+        Allure.parameter("x", x);
+        Allure.parameter("y", y);
+        Allure.parameter("sum", sum);
+
+        assertEquals(x + y, sum);
+    }
+
     // @ParameterizedTest(name = "Something here")
     // @ValueSource(strings = {"First Note", "Second Note"})
     // public void shouldCreateUserNote(String title) {
