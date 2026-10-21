@@ -47,6 +47,7 @@ public class TestParameters {
 
     @ParameterizedTest(name = "oh, you touch my ta-la-la")
     @MethodSource("dataProvider")
+    @AllureId("16585")
     public void testSum3(int x, int y, int sum) {
         Allure.parameter("x", x);
         Allure.parameter("y", y);
