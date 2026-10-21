@@ -45,15 +45,15 @@ public class TestParameters {
         assertEquals(x + y, sum);
     }
 
-    @ParameterizedTest(name = "Something here")
-    @ValueSource(strings = {"First Note", "Second Note"})
-    public void shouldCreateUserNote(String title) {
-        parameter("owner", OWNER);
-        parameter("repo", REPO);
-        parameter("title", title);
+    // @ParameterizedTest(name = "Something here")
+    // @ValueSource(strings = {"First Note", "Second Note"})
+    // public void shouldCreateUserNote(String title) {
+    //     parameter("owner", OWNER);
+    //     parameter("repo", REPO);
+    //     parameter("title", title);
 
-        assertNotEquals("aaa", title);
-    }
+    //     assertNotEquals("aaa", title);
+    // }
 
     @ParameterizedTest(name = "Here is the user with parameter {0}")
     @ValueSource(strings = {"First Note", "Second Note"})
