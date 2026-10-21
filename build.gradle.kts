@@ -1,60 +1,18 @@
-import io.qameta.allure.gradle.AllureExtension
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-
-buildscript {
-    repositories {
-        maven("https://plugins.gradle.org/m2/")
-    }
-
-    dependencies {
-        classpath("io.qameta.allure:allure-gradle:2.8.1")
-    }
-}
-
-tasks.existing(Wrapper::class) {
-    gradleVersion = "5.1.1"
-    distributionType = Wrapper.DistributionType.ALL
-}
-
-group = "io.eroshenkoam"
-version = version
 
 plugins {
     java
-    maven
+    id("io.qameta.allure") version "2.12.0"
 }
 
-apply(plugin = "io.qameta.allure")
+group = "io.eroshenkoam"
 
-configure<AllureExtension> {
-    autoconfigure = true
-    aspectjweaver = true
-    version = "2.16.0"
+val allureVersion = "2.29.1"
+val junitVersion = "5.11.4"
 
-    useJUnit5 {
-        version = "2.16.0"
-    }
-
-}
-
-tasks.withType(JavaCompile::class) {
-    sourceCompatibility = "${JavaVersion.VERSION_1_8}"
-    targetCompatibility = "${JavaVersion.VERSION_1_8}"
-    options.encoding = "UTF-8"
-}
-
-tasks.withType(Test::class) {
-    ignoreFailures = true
-    useJUnitPlatform {
-
-    }
-    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
-    systemProperty("junit.jupiter.execution.parallel.config.strategy", "dynamic")
-
-    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-    testLogging {
-        setEvents(listOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED))
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
@@ -62,13 +20,43 @@ repositories {
     mavenLocal()
 }
 
+allure {
+    version.set(allureVersion)
+    adapter {
+        autoconfigure.set(true)
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
+
 dependencies {
-    compile("commons-io:commons-io:2.6")
-    compile("io.qameta.allure:allure-java-commons:2.16.0")
+    implementation("commons-io:commons-io:2.18.0")
+    implementation("io.qameta.allure:allure-java-commons:$allureVersion")
 
-    compile("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    compile("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-    compile("org.junit.jupiter:junit-jupiter-params:5.7.0")
+    implementation(platform("org.junit:junit-bom:$junitVersion"))
+    implementation("org.junit.jupiter:junit-jupiter-api")
+    implementation("org.junit.jupiter:junit-jupiter-params")
+    runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
 
-    testCompile("io.qameta.allure:allure-junit-platform:2.16.0")
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType<Test>().configureEach {
+    ignoreFailures = true
+    useJUnitPlatform()
+
+    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
+    systemProperty("junit.jupiter.execution.parallel.config.strategy", "dynamic")
+    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
+
+    testLogging {
+        events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+    }
 }
